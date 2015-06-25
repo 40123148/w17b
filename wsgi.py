@@ -111,10 +111,8 @@ class Midterm(object):
         <meta http-equiv="content-type" content="text/html;charset=utf-8">
         </head>
         <body>
-        <a href="spur">spur</a><br />
-        <a href="drawspur">drawspur</a><br />
-        <a href="fileuploadform">上傳檔案</a><br />
-        <a href="download_list">列出上傳檔案</a><br />
+
+
         <a href="drawspur3">drawspur3</a><br />
         </body>
         </html>
@@ -451,6 +449,10 @@ class Midterm(object):
     n_g1 = '''+str(N)+'''
     # 第2齒輪齒數
     n_g2='''+str(O)+'''
+    # 第3齒輪齒數
+    n_g3 = '''+str(N)+'''
+    # 第4齒輪齒數
+    n_g4='''+str(O)+'''
 
     # M 為模數
     m = 8
@@ -460,6 +462,9 @@ class Midterm(object):
     # 計算兩齒輪的節圓半徑
     rp_g1 = m*n_g1/2
     rp_g2 = m*n_g2/2
+    rp_g3 = m*n_g3/2
+    rp_g4 = m*n_g4/2
+
 
     # 繪圖第1齒輪的圓心座標
     x_g1 = 400
@@ -467,6 +472,17 @@ class Midterm(object):
     # 第2齒輪的圓心座標, 假設排列成水平, 表示各齒輪圓心 y 座標相同
     x_g2 = x_g1 
     y_g2 = y_g1 + rp_g1 + rp_g2
+    # 第3齒輪的圓心座標
+    x_g3 = x_g2 + rp_g2+ rp_g3
+    y_g3 = y_g2
+    # 第4齒輪的圓心座標
+    x_g4 = x_g3 
+    y_g4 = y_g3+ rp_g3+ rp_g4
+
+    tran1 = pi
+    tran2 = -pi/n_g2
+    tran3 = -pi/2-pi/n_g3+(pi/2+pi/n_g2)*n_g2/n_g3
+    tran4 = -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4
 
     # 將第1齒輪順時鐘轉 180 度
     # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
@@ -474,23 +490,49 @@ class Midterm(object):
     # translate to the origin of second gear
     ctx.translate(x_g1, y_g1)
     # rotate to engage
-    ctx.rotate(pi)
+    ctx.rotate(tran1)
     # put it back
     ctx.translate(-x_g1, -y_g1)
     spur.Spur(ctx).Gear(x_g1, y_g1, rp_g1, n_g1, pa, "blue")
     ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g1, y_g1);
     # 將第2齒輪逆時鐘多轉一齒, 以便與第1齒輪進行囓合
     ctx.save()
     # translate to the origin of second gear
     ctx.translate(x_g2, y_g2)
     # rotate to engage
-    ctx.rotate(-pi/n_g2)
+    ctx.rotate(tran2)
     # put it back
     ctx.translate(-x_g2, -y_g2)
     spur.Spur(ctx).Gear(x_g2, y_g2, rp_g2, n_g2, pa, "black")
     ctx.restore()
-
-
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g2, y_g2);
+    # 將第3齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3, y_g3)
+    # rotate to engage
+    ctx.rotate(tran3)
+    # put it back
+    ctx.translate(-x_g3, -y_g3)
+    spur.Spur(ctx).Gear(x_g3, y_g3, rp_g3, n_g3, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g3, y_g3);
+    # 將第4齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4, y_g4)
+    # rotate to engage
+    ctx.rotate(tran4)
+    # put it back
+    ctx.translate(-x_g4, -y_g4)
+    spur.Spur(ctx).Gear(x_g4, y_g4, rp_g4, n_g4, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g4, y_g4);
     </script>
     <canvas id="plotarea" width="1200" height="1200"></canvas>
     <!-- 載入 brython.js -->
