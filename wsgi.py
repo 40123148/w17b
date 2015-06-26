@@ -112,8 +112,9 @@ class Midterm(object):
         </head>
         <body>
 
-
-        <a href="drawspur3">drawspur3</a><br />
+        <a href="alonedraw">個人繪製1、2齒輪</a><br />
+        <a href="drawspur3">雙人繪製3、4齒輪</a><br />
+        <a href="drawspur4">三人繪製5、6齒輪</a><br />
         </body>
         </html>
         '''
@@ -238,6 +239,261 @@ class Midterm(object):
     <canvas id="plotarea" width="1200" height="1200"></canvas>
     <!-- 載入 brython.js -->
     <script type="text/javascript" src="/static/Brython3.1.3-20150514-095342/brython.js"></script>
+    <script>
+    window.onload=function(){
+    brython();
+    }
+    </script>
+    </body>
+    </html>
+    '''
+
+        return outstring
+    @cherrypy.expose
+    # N 為齒數, M 為模數, P 為壓力角
+    def alonedraw(self, N=15,O=24, M=10, P=20):
+        outstring = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+        
+    <form method=POST action=alonedraw2>
+    <p>齒數1:
+    <select name=N>
+    <option>15
+    <option>16
+    <option>17
+    <option>18
+    <option>19
+    <option>20
+    <option>21
+    <option>22
+    <option>23
+    <option>24
+    <option>25
+    <option>26
+    <option>27
+    <option>28
+    <option>29
+    <option>30
+    <option>31
+    <option>32
+    <option>33
+    <option>34
+    <option>35
+    <option>36
+    <option>37
+    <option>38
+    <option>39
+    <option>40
+    <option>41
+    <option>42
+    <option>43
+    <option>44
+    <option>45
+    <option>46
+    <option>47
+    <option>48
+    <option>49
+    <option>50
+    <option>51
+    <option>52
+    <option>53
+    <option>54
+    <option>55
+    <option>56
+    <option>57
+    <option>58
+    <option>59
+    <option>60
+    <option>61
+    <option>62
+    <option>63
+    <option>64
+    <option>65
+    <option>66
+    <option>67
+    <option>68
+    <option>69
+    <option>70
+    <option>71
+    <option>72
+    <option>73
+    <option>74
+    <option>75
+    <option>76
+    <option>77
+    <option>78
+    <option>79
+    <option>80
+
+
+    </select>
+    <p>齒數2:
+    <select name=O>
+    <option>24
+    <option>15
+    <option>16
+    <option>17
+    <option>18
+    <option>19
+    <option>20
+    <option>21
+    <option>22
+    <option>23
+
+    <option>25
+    <option>26
+    <option>27
+    <option>28
+    <option>29
+    <option>30
+    <option>31
+    <option>32
+    <option>33
+    <option>34
+    <option>35
+    <option>36
+    <option>37
+    <option>38
+    <option>39
+    <option>40
+    <option>41
+    <option>42
+    <option>43
+    <option>44
+    <option>45
+    <option>46
+    <option>47
+    <option>48
+    <option>49
+    <option>50
+    <option>51
+    <option>52
+    <option>53
+    <option>54
+    <option>55
+    <option>56
+    <option>57
+    <option>58
+    <option>59
+    <option>60
+    <option>61
+    <option>62
+    <option>63
+    <option>64
+    <option>65
+    <option>66
+    <option>67
+    <option>68
+    <option>69
+    <option>70
+    <option>71
+    <option>72
+    <option>73
+    <option>74
+    <option>75
+    <option>76
+    <option>77
+    <option>78
+    <option>79
+    <option>80
+
+    </select>
+    <br />
+    <br />
+    <input type=submit value=畫出正齒輪輪廓>
+    </form>
+    <br /><a href="index">index</a><br />
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.1-20150328-091302/brython.js"></script>
+    <script>
+    window.onload=function(){
+    brython();
+    }
+    </script>
+    </body>
+    </html>
+    '''
+
+        return outstring
+    @cherrypy.expose
+    # N 為齒數, M 為模數, P 為壓力角
+    def alonedraw2(self, N=15,O=24 ,M=10, P=20):
+        outstring = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+    <a href="index">index</a><br />
+        
+    <!-- 以下為 canvas 畫圖程式 -->
+    <script type="text/python">
+    # 從 browser 導入 document
+    from browser import document
+    from math import *
+    # 請注意, 這裡導入位於 Lib/site-packages 目錄下的 spur.py 檔案
+    import spur
+
+    # 準備在 id="plotarea" 的 canvas 中繪圖
+    canvas = document["plotarea"]
+    ctx = canvas.getContext("2d")
+
+    # 以下利用 spur.py 程式進行繪圖
+    # N 為齒數
+    # 第1齒輪齒數
+    n_g1 = '''+str(N)+'''
+    # 第2齒輪齒數
+    n_g2='''+str(O)+'''
+
+    # M 為模數
+    m = 8
+    # 壓力角 P 單位為角度
+    pa = 20
+
+    # 計算兩齒輪的節圓半徑
+    rp_g1 = m*n_g1/2
+    rp_g2 = m*n_g2/2
+
+    # 繪圖第1齒輪的圓心座標
+    x_g1 = 400
+    y_g1 = 400
+    # 第2齒輪的圓心座標, 假設排列成水平, 表示各齒輪圓心 y 座標相同
+    x_g2 = x_g1 
+    y_g2 = y_g1 + rp_g1 + rp_g2
+
+    # 將第1齒輪順時鐘轉 180 度
+    # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g1, y_g1)
+    # rotate to engage
+    ctx.rotate(pi)
+    # put it back
+    ctx.translate(-x_g1, -y_g1)
+    spur.Spur(ctx).Gear(x_g1, y_g1, rp_g1, n_g1, pa, "blue")
+    ctx.restore()
+    # 將第2齒輪逆時鐘多轉一齒, 以便與第1齒輪進行囓合
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g2, y_g2)
+    # rotate to engage
+    ctx.rotate(-pi/n_g2)
+    # put it back
+    ctx.translate(-x_g2, -y_g2)
+    spur.Spur(ctx).Gear(x_g2, y_g2, rp_g2, n_g2, pa, "black")
+    ctx.restore()
+
+
+    </script>
+    <canvas id="plotarea" width="1200" height="1200"></canvas>
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.1-20150328-091302/brython.js"></script>
     <script>
     window.onload=function(){
     brython();
@@ -449,6 +705,10 @@ class Midterm(object):
     n_g1 = '''+str(N)+'''
     # 第2齒輪齒數
     n_g2='''+str(O)+'''
+    # 第3齒輪齒數
+    n_g3 = '''+str(N)+'''
+    # 第4齒輪齒數
+    n_g4='''+str(O)+'''
 
     # M 為模數
     m = 8
@@ -458,13 +718,27 @@ class Midterm(object):
     # 計算兩齒輪的節圓半徑
     rp_g1 = m*n_g1/2
     rp_g2 = m*n_g2/2
+    rp_g3 = m*n_g3/2
+    rp_g4 = m*n_g4/2
+
 
     # 繪圖第1齒輪的圓心座標
-    x_g1 = 200
-    y_g1 = 200
+    x_g1 = 400
+    y_g1 = 400
     # 第2齒輪的圓心座標, 假設排列成水平, 表示各齒輪圓心 y 座標相同
     x_g2 = x_g1 
     y_g2 = y_g1 + rp_g1 + rp_g2
+    # 第3齒輪的圓心座標
+    x_g3 = x_g2 + rp_g2+ rp_g3
+    y_g3 = y_g2
+    # 第4齒輪的圓心座標
+    x_g4 = x_g3 
+    y_g4 = y_g3+ rp_g3+ rp_g4
+
+    tran1 = pi
+    tran2 = -pi/n_g2
+    tran3 = -pi/2-pi/n_g3+(pi/2+pi/n_g2)*n_g2/n_g3
+    tran4 = -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4
 
     # 將第1齒輪順時鐘轉 180 度
     # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
@@ -472,25 +746,390 @@ class Midterm(object):
     # translate to the origin of second gear
     ctx.translate(x_g1, y_g1)
     # rotate to engage
-    ctx.rotate(pi)
+    ctx.rotate(tran1)
     # put it back
     ctx.translate(-x_g1, -y_g1)
     spur.Spur(ctx).Gear(x_g1, y_g1, rp_g1, n_g1, pa, "blue")
     ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g1, y_g1);
     # 將第2齒輪逆時鐘多轉一齒, 以便與第1齒輪進行囓合
     ctx.save()
     # translate to the origin of second gear
     ctx.translate(x_g2, y_g2)
     # rotate to engage
-    ctx.rotate(-pi/n_g2)
+    ctx.rotate(tran2)
     # put it back
     ctx.translate(-x_g2, -y_g2)
     spur.Spur(ctx).Gear(x_g2, y_g2, rp_g2, n_g2, pa, "black")
     ctx.restore()
-
-
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g2, y_g2);
+    # 將第3齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3, y_g3)
+    # rotate to engage
+    ctx.rotate(tran3)
+    # put it back
+    ctx.translate(-x_g3, -y_g3)
+    spur.Spur(ctx).Gear(x_g3, y_g3, rp_g3, n_g3, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g3, y_g3);
+    # 將第4齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4, y_g4)
+    # rotate to engage
+    ctx.rotate(tran4)
+    # put it back
+    ctx.translate(-x_g4, -y_g4)
+    spur.Spur(ctx).Gear(x_g4, y_g4, rp_g4, n_g4, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g4, y_g4);
     </script>
     <canvas id="plotarea" width="1200" height="1200"></canvas>
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.1-20150328-091302/brython.js"></script>
+    <script>
+    window.onload=function(){
+    brython();
+    }
+    </script>
+    </body>
+    </html>
+    '''
+
+        return outstring
+    @cherrypy.expose
+    # N 為齒數, M 為模數, P 為壓力角
+    def drawspur4(self, N=15,O=24, M=10, P=20):
+        outstring = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+        
+    <form method=POST action=drawspuraction4>
+    <p>齒數1:
+    <select name=N>
+    <option>15
+    <option>16
+    <option>17
+    <option>18
+    <option>19
+    <option>20
+    <option>21
+    <option>22
+    <option>23
+    <option>24
+    <option>25
+    <option>26
+    <option>27
+    <option>28
+    <option>29
+    <option>30
+    <option>31
+    <option>32
+    <option>33
+    <option>34
+    <option>35
+    <option>36
+    <option>37
+    <option>38
+    <option>39
+    <option>40
+    <option>41
+    <option>42
+    <option>43
+    <option>44
+    <option>45
+    <option>46
+    <option>47
+    <option>48
+    <option>49
+    <option>50
+    <option>51
+    <option>52
+    <option>53
+    <option>54
+    <option>55
+    <option>56
+    <option>57
+    <option>58
+    <option>59
+    <option>60
+    <option>61
+    <option>62
+    <option>63
+    <option>64
+    <option>65
+    <option>66
+    <option>67
+    <option>68
+    <option>69
+    <option>70
+    <option>71
+    <option>72
+    <option>73
+    <option>74
+    <option>75
+    <option>76
+    <option>77
+    <option>78
+    <option>79
+    <option>80
+
+
+    </select>
+    <p>齒數2:
+    <select name=O>
+    <option>24
+    <option>15
+    <option>16
+    <option>17
+    <option>18
+    <option>19
+    <option>20
+    <option>21
+    <option>22
+    <option>23
+
+    <option>25
+    <option>26
+    <option>27
+    <option>28
+    <option>29
+    <option>30
+    <option>31
+    <option>32
+    <option>33
+    <option>34
+    <option>35
+    <option>36
+    <option>37
+    <option>38
+    <option>39
+    <option>40
+    <option>41
+    <option>42
+    <option>43
+    <option>44
+    <option>45
+    <option>46
+    <option>47
+    <option>48
+    <option>49
+    <option>50
+    <option>51
+    <option>52
+    <option>53
+    <option>54
+    <option>55
+    <option>56
+    <option>57
+    <option>58
+    <option>59
+    <option>60
+    <option>61
+    <option>62
+    <option>63
+    <option>64
+    <option>65
+    <option>66
+    <option>67
+    <option>68
+    <option>69
+    <option>70
+    <option>71
+    <option>72
+    <option>73
+    <option>74
+    <option>75
+    <option>76
+    <option>77
+    <option>78
+    <option>79
+    <option>80
+
+    </select>
+    <br />
+    <br />
+    <input type=submit value=畫出正齒輪輪廓>
+    </form>
+    <br /><a href="index">index</a><br />
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.1-20150328-091302/brython.js"></script>
+    <script>
+    window.onload=function(){
+    brython();
+    }
+    </script>
+    </body>
+    </html>
+    '''
+
+        return outstring
+    @cherrypy.expose
+    # N 為齒數, M 為模數, P 為壓力角
+    def drawspuraction4(self, N=15,O=24 ,M=10, P=20):
+        outstring = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+    <a href="index">index</a><br />
+        
+    <!-- 以下為 canvas 畫圖程式 -->
+    <script type="text/python">
+    # 從 browser 導入 document
+    from browser import document
+    from math import *
+    # 請注意, 這裡導入位於 Lib/site-packages 目錄下的 spur.py 檔案
+    import spur
+
+    # 準備在 id="plotarea" 的 canvas 中繪圖
+    canvas = document["plotarea"]
+    ctx = canvas.getContext("2d")
+
+    # 以下利用 spur.py 程式進行繪圖
+    # N 為齒數
+    # 第1齒輪齒數
+    n_g1 = '''+str(N)+'''
+    # 第2齒輪齒數
+    n_g2='''+str(O)+'''
+    # 第3齒輪齒數
+    n_g3 = '''+str(N)+'''
+    # 第4齒輪齒數
+    n_g4='''+str(O)+'''
+    # 第5齒輪齒數
+    n_g5 = '''+str(N)+'''
+    # 第6齒輪齒數
+    n_g6='''+str(O)+'''
+
+    # M 為模數
+    m = 8
+    # 壓力角 P 單位為角度
+    pa = 20
+
+    # 計算兩齒輪的節圓半徑
+    rp_g1 = m*n_g1/2
+    rp_g2 = m*n_g2/2
+    rp_g3 = m*n_g3/2
+    rp_g4 = m*n_g4/2
+    rp_g5 = m*n_g5/2
+    rp_g6 = m*n_g6/2
+
+    # 繪圖第1齒輪的圓心座標
+    x_g1 = 400
+    y_g1 = 400
+    # 第2齒輪的圓心座標, 假設排列成水平, 表示各齒輪圓心 y 座標相同
+    x_g2 = x_g1 
+    y_g2 = y_g1 + rp_g1 + rp_g2
+    # 第3齒輪的圓心座標
+    x_g3 = x_g2 + rp_g2+ rp_g3
+    y_g3 = y_g2
+    # 第4齒輪的圓心座標
+    x_g4 = x_g3 
+    y_g4 = y_g3+ rp_g3+ rp_g4
+
+    x_g5 = x_g4 + rp_g4+ rp_g5
+    y_g5 = y_g4
+
+    x_g6 = x_g5 
+    y_g6 = y_g5+ rp_g5 + rp_g6
+
+    # -pi/2-pi/n_g5+(pi+pi/n_g4)*n_g4/n_g5-(pi+pi/n_g3)*n_g3/n_g5+(pi+pi/n_g2)*n_g2/n_g5
+    # -pi/2-pi/n_g6+(pi+pi/n_g5)*n_g5/n_g6-(pi+pi/n_g4)*n_g4/n_g6+(pi+pi/n_g3)*n_g3/n_g6-(pi+pi/n_g2)*n_g2/n_g6
+    tran1 = pi
+    tran2 = -pi/n_g2
+    tran3 = -pi/2-pi/n_g3+(pi/2+pi/n_g2)*n_g2/n_g3
+    tran4 = -pi/n_g4+(-pi/2+pi/n_g3)*n_g3/n_g4-(pi/2+pi/n_g2)*n_g2/n_g4
+    tran5 = -pi/2-pi/n_g5+(pi/2+pi/n_g4)*n_g4/n_g5-(-pi/2+pi/n_g3)*n_g3/n_g5+(pi/2+pi/n_g2)*n_g2/n_g5
+    tran6 = -pi/n_g6+(3*pi/2+pi/n_g5)*n_g5/n_g6-(pi/2+pi/n_g4)*n_g4/n_g6+(-pi/2+pi/n_g3)*n_g3/n_g6-(pi/2+pi/n_g2)*n_g2/n_g6
+
+    # 將第1齒輪順時鐘轉 180 度
+    # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g1, y_g1)
+    # rotate to engage
+    ctx.rotate(tran1)
+    # put it back
+    ctx.translate(-x_g1, -y_g1)
+    spur.Spur(ctx).Gear(x_g1, y_g1, rp_g1, n_g1, pa, "blue")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g1, y_g1);
+    # 將第2齒輪逆時鐘多轉一齒, 以便與第1齒輪進行囓合
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g2, y_g2)
+    # rotate to engage
+    ctx.rotate(tran2)
+    # put it back
+    ctx.translate(-x_g2, -y_g2)
+    spur.Spur(ctx).Gear(x_g2, y_g2, rp_g2, n_g2, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡宗霖繪製",x_g2, y_g2);
+    # 將第3齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3, y_g3)
+    # rotate to engage
+    ctx.rotate(tran3)
+    # put it back
+    ctx.translate(-x_g3, -y_g3)
+    spur.Spur(ctx).Gear(x_g3, y_g3, rp_g3, n_g3, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g3, y_g3);
+    # 將第4齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4, y_g4)
+    # rotate to engage
+    ctx.rotate(tran4)
+    # put it back
+    ctx.translate(-x_g4, -y_g4)
+    spur.Spur(ctx).Gear(x_g4, y_g4, rp_g4, n_g4, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("蔡依靜繪製",x_g4, y_g4);
+    # 將第5齒輪
+    # 使用 ctx.save() 與 ctx.restore() 以確保各齒輪以相對座標進行旋轉繪圖
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g5, y_g5)
+    # rotate to engage
+    ctx.rotate(tran5)
+    # put it back
+    ctx.translate(-x_g5, -y_g5)
+    spur.Spur(ctx).Gear(x_g5, y_g5, rp_g5, n_g5, pa, "blue")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("周于婷繪製",x_g5, y_g5);
+    # 將第6齒輪
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g6, y_g6)
+    # rotate to engage
+    ctx.rotate(tran6)
+    # put it back
+    ctx.translate(-x_g6, -y_g6)
+    spur.Spur(ctx).Gear(x_g6, y_g6, rp_g6, n_g6, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("周于婷繪製",x_g6, y_g6);
+    </script>
+    <canvas id="plotarea" width="1600" height="1600"></canvas>
     <!-- 載入 brython.js -->
     <script type="text/javascript" src="/static/Brython3.1.1-20150328-091302/brython.js"></script>
     <script>
